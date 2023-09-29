@@ -16,4 +16,30 @@ router.get('/', (req, res) => {
   }
 });
 
+router.post('/', (req, res) => {
+  const body = req.body;
+  res.json({
+    message: "Created successfully",
+    data: body
+  });
+});
+
+router.patch('/:id', (req, res) => {
+  const {id} = req.params;
+  const body = req.body;
+  res.json({
+    message: 'Updated successfully',
+    data: body,
+    id
+  });
+});
+
+router.delete('/:id', (req, res) => {
+  const {id} = req.params;
+  res.json({
+    message: 'Deleted successfully',
+    id
+  });
+});
+
 module.exports = router

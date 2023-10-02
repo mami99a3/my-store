@@ -42,27 +42,35 @@ router.get('/:productId/categories/:categorieId', (req, res) => {
 
 router.post('/', (req, res) => {
   const body = req.body;
+  const newProduct = service.create(body);
   res.status(201).json({
     message: 'Created successfully',
-    data: body
+    data: {
+      ...newProduct
+    }
   });
 });
 
 router.patch('/:id', (req, res) => {
   const {id} = req.params;
   const body = req.body;
+  const product_updated = service.update(id, body);
   res.json({
     message: 'Updated successfully',
-    data: body,
-    id
+    data: {
+      ...product_updated
+    }
   });
 });
 
 router.delete('/:id', (req, res) => {
   const {id} = req.params;
+  const product_deleted = service.delete(id);
   res.json({
     message: 'Deleted successfully',
-    id
+    data: {
+      ...product_deleted
+    }
   });
 });
 

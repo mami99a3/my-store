@@ -33,11 +33,12 @@ class ProductsService{
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(this.products)
-      }, 5000);
+      }, 2000);
     });
   }
 
   async findOne(id){
+    const name = this.getOne();
     return this.products.find(item => item.id === id);
   }
 

@@ -9,23 +9,29 @@ router.get('/', async (req, res) => {
   res.json(products);
 });
 
-//Todo enpoint específico va antes de un enpoint dinámico
-router.get('/filter', async (req, res) => {
+//Un enpoint especifico va antes de un enpoint dinamico
+router.get('/filter', (req, res) => {
   res.send('Yo soy un filtro');
 });
 
-//Endpoint dinámico
-router.get('/:id', async (req, res) => {
-  const {id} = req.params;
-  const product = await service.findOne(id);
-  if(product){
-    res.status(200).json(product);
+//Enpoint dinámico
+router.get('/:id', async (req, res, next) => {
+  try{
+    const {id} = req.params;
+    const product = await service.findOne(id);
+    if(product){
+      res.status(200).json(product);
+    }
+    else{
+      res.status(404).json({
+        message: 'Error! id => ' + id + ' not found'
+      });
+    }
   }
-  else{
-    res.status(404).json({
-      message: 'Error! id => ' + id + ' not found'
-    });
+  catch(error){
+    next(error);
   }
+
 });
 
 router.get('/:productId/categories/:categorieId', async (req, res) => {

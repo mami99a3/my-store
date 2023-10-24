@@ -17,33 +17,13 @@ router.get('/filter', (req, res) => {
 //Enpoint dinámico
 router.get('/:id', async (req, res, next) => {
   try{
-    const {id} = req.params;
+    const { id } = req.params;
     const product = await service.findOne(id);
-    if(product){
-      res.status(200).json(product);
-    }
-    else{
-      res.status(404).json({
-        message: 'Error! id => ' + id + ' not found'
-      });
-    }
+    res.json(product);
   }
   catch(error){
     next(error);
   }
-
-});
-
-router.get('/:productId/categories/:categorieId', async (req, res) => {
-  const {productId, categorieId} = req.params;
-  res.json([
-    {
-      'productId': productId,
-      'categorieId': categorieId,
-      'request': req.params,
-      'type of request': typeof(req.params)
-    }
-  ]);
 });
 
 router.post('/', async (req, res) => {
@@ -57,7 +37,7 @@ router.post('/', async (req, res) => {
   });
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {  
     const {id} = req.params;
     const body = req.body;
@@ -70,9 +50,7 @@ router.patch('/:id', async (req, res) => {
     });
   }
   catch(error){
-    res.status(404).json({
-      message: error.message
-    });
+    next(error);
   }
 });
 
